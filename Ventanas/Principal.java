@@ -1,10 +1,13 @@
 package Ventanas;
 
+import BD.BDRestaurante;
+
 public class Principal {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		BDRestaurante bd1 = new BDRestaurante();
+		bd1.conectar();
+		bd1.iniciar();
 	}
 
 }

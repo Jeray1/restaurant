@@ -1,16 +1,17 @@
 package BD;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import Clases.Camarero;
 import Clases.Clientes;
 import Clases.Cocinero;
-import Clases.Empleados;
 import Clases.Limpiador;
 import Clases.Recetas;
 
 public interface BaseDatos {
 	
+	public void conectar();
 	public void iniciar();
 	public ArrayList<Clientes> verClientes();
 	public ArrayList<Cocinero> verCocineros();
