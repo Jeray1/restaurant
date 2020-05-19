@@ -63,9 +63,22 @@ public class BDRestaurante implements BaseDatos{
 			enunciado.execute("CREATE TABLE Empleados(dni String,Contrato String,Salario float,Aviso String,Talla String,Horario String,Usuario String,FOREIGN KEY(Usuario) REFERENCES Persona(usuario));");
 			enunciado.execute("DROP TABLE IF EXISTS Cocineros;");
 			enunciado.execute("CREATE TABLE Cocineros(idcocinero int PRYMARY KEY,especialidad String,Usuario String,FOREIGN KEY(Usuario) REFERENCES Persona(usuario));");
-			enunciado.execute("DROP TABLE IF EXISTS Empleados;");
-			enunciado.execute("CREATE TABLE Empleados(DNI String, Contrato String,Salario float,Aviso String,Talla String,Horario String);");
-			enunciado.execute("INSERT INTO Empleados values ('66666666s','Temporal',750.25,'Joputa','XXXXXXL','9:00-21:00');");
+			enunciado.execute("DROP TABLE IF EXISTS Camarero;");
+			enunciado.execute("CREATE TABLE Camarero(idcocinero int PRYMARY KEY,Zona int,Propina float, Usuario String,FOREIGN KEY(Usuario) REFERENCES Persona(usuario));");
+			enunciado.execute("DROP TABLE IF EXISTS Limpiador;");
+			enunciado.execute("CREATE TABLE Limpiador(idlimpiador int PRYMARY KEY,Usuario String,FOREIGN KEY(Usuario) REFERENCES Persona(usuario));");
+			enunciado.execute("DROP TABLE IF EXISTS Cliente;");
+			enunciado.execute("CREATE TABLE Cliente(idcliente int PRYMARY KEY,metododepago String,Usuario String,FOREIGN KEY(Usuario) REFERENCES Persona(usuario));");
+			enunciado.execute("DROP TABLE IF EXISTS Reservas;");
+			enunciado.execute("CREATE TABLE Reservas(nr int PRYMARY KEY,FechaReserva String,cantidaddepersonas int,idcliente int,FOREIGN KEY(idcliente) REFERENCES Cleinte(idcliente));");
+			enunciado.execute("DROP TABLE IF EXISTS Mesas;");
+			enunciado.execute("CREATE TABLE Reservas(nr int PRYMARY KEY,FechaReserva String,cantidaddepersonas int,idcliente int,FOREIGN KEY(idcliente) REFERENCES Cleinte(idcliente));");
+			enunciado.execute("DROP TABLE IF EXISTS Comanda;");
+			enunciado.execute("CREATE TABLE Comanda(idcomanda int PRYMARY KEY,ocupada boolean,nr int,FOREIGN KEY(nr) REFERENCES Reservas(nr));");
+			
+			
+			
+			enunciado.execute("INSERT INTO Empleados values ('66666666s','Temporal',750.25,'Joputa','XXXXXXL','9:00-21:00','jo12');");
 		    }
 		    catch(SQLException e){
 		      //Se produce algun problema al crear la tabla
