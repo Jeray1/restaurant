@@ -1,12 +1,17 @@
 package BD;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
+
+import javax.swing.JOptionPane;
 
 import Clases.Camarero;
 import Clases.Clientes;
 import Clases.Cocinero;
 import Clases.Limpiador;
 import Clases.Recetas;
+import Enumeraciones.Contratos;
+import Enumeraciones.MetodoPago;
 
 import java.io.File;
 import java.sql.Connection;
@@ -62,7 +67,7 @@ public class BDRestaurante implements BaseDatos {
 			// tabla Persona
 			enunciado.execute("DROP TABLE IF EXISTS Persona;");
 			enunciado.execute(
-					"CREATE TABLE Persona(Usuario String PRIMARY KEY, contraseña String,email String,Nombre String,Apellido String,Telefono String);");
+					"CREATE TABLE Persona(usuario String PRIMARY KEY, contraseña String,email String,Nombre String,Apellido String,Telefono String);");
 
 			// tabla jefe
 			enunciado.execute("DROP TABLE IF EXISTS Jefe;");
@@ -71,12 +76,12 @@ public class BDRestaurante implements BaseDatos {
 			// tabla Empleados
 			enunciado.execute("DROP TABLE IF EXISTS Empleados;");
 			enunciado.execute(
-					"CREATE TABLE Empleados(dni String PRIMARY KEY,Contrato String,Salario float,Aviso String,Talla String,Horario String,Usuario String,FOREIGN KEY(Usuario) REFERENCES Persona(usuario));");
+					"CREATE TABLE Empleados(dni String PRIMARY KEY,Contrato String,Salario float,Aviso String,Talla String,Horario String,usuario String,FOREIGN KEY(usuario) REFERENCES Persona(usuario));");
 
 			// tabla Cocinero
 			enunciado.execute("DROP TABLE IF EXISTS Cocineros;");
 			enunciado.execute(
-					"CREATE TABLE Cocineros(idcocinero int PRIMARY KEY,especialidad String,Usuario String, idjefe int, FOREIGN KEY(Usuario) REFERENCES Persona(usuario), FOREIGN KEY(idjefe) REFERENCES Jefe(idjefe));");
+					"CREATE TABLE Cocineros(idcocinero int PRIMARY KEY,especialidad String,usuario String, idjefe int, FOREIGN KEY(usuario) REFERENCES Persona(usuario), FOREIGN KEY(idjefe) REFERENCES Jefe(idjefe));");
 
 			// tabla Camarero
 			enunciado.execute("DROP TABLE IF EXISTS Camarero;");
@@ -91,7 +96,7 @@ public class BDRestaurante implements BaseDatos {
 			// tabla Cliente
 			enunciado.execute("DROP TABLE IF EXISTS Cliente;");
 			enunciado.execute(
-					"CREATE TABLE Cliente(idcliente int PRIMARY KEY,metododepago String,Usuario String,FOREIGN KEY(Usuario) REFERENCES Persona(usuario));");
+					"CREATE TABLE Cliente(idcliente int PRIMARY KEY,metododepago String,usuario String, FOREIGN KEY(usuario) REFERENCES Persona(usuario));");
 
 		// servicio---------------------------------------------------------------------------------
 			
@@ -152,15 +157,79 @@ public class BDRestaurante implements BaseDatos {
 			
 			
 			
-			// Insert
+			
+			
+			// Insertamos Personas
 			enunciado.execute(
-					"INSERT INTO Empleados values ('66666666s','Temporal',750.25,'Joputa','XXXXXXL','9:00-21:00','jo12'),"
-							+ "('77777777K','Indefinido',1000.25,'Rabino','BAJITO Y GORDITO','6:00-23:00','jojo´s bizarre');"
-							);
+					"INSERT INTO Persona VALUES "
+					+ "('Boniato','1DAW3','boniato@gmail.com','Beñat','Madariaga','656565656'),"
+					+ "('J3','1DAW3','J3@gmail.com','Jeray','Garcia','656565656'),"
+					+ "('Aior','1DAW3','aior@gmail.com','Aimar','Odriozola','656565656'),"
+					+ "('Cheff1','1DAW3','cheff1@gmail.com','Joaquin','Perez','656565656'),"
+					+ "('Cheff2','1DAW3','cheff2@gmail.com','Roberta','Mendoza','656565656'),"
+					+ "('Cam1','1DAW3','cam1@gmail.com','Asier','Mendez','656565656'),"
+					+ "('Cam2','1DAW3','cam2@gmail.com','Selena','Rodriguez','656565656'),"
+					+ "('Lmp1','1DAW3','lmp1@gmail.com','Eneko','Santa Cruz','656565656'),"
+					+ "('Lmp2','1DAW3','lmp2@gmail.com','David','Arroyo','656565656'),"
+					+ "('Lmp3','1DAW3','lmp3@gmail.com','Iñigo','Juarros','656565656');"
+					);
+			
+			// Insertamos Empleados
+			enunciado.execute(
+					"INSERT INTO Empleados VALUES "
+					+ "('66666666S','Temporal',750.25,'','XXXXXXL','9:00-21:00','Cheff2'),"
+					+ "('77777777K','Indefinido',1000.25,'','BAJITO Y GORDITO','6:00-23:00','Cheff1'),"
+					+ "('12356732S','MediaJornada',1020.25,'Limpieza en el pasillo 3','Solo bajito','9:00-20:00','Cam1'),"
+					+ "('23772347F','Sustitucion',800.25,'','Solo gordita','8:00-22:00','Cam2'),"
+					+ "('19432423G','Indefinido',800.25,'','XS','8:00-12:00','Lmp1'),"
+					+ "('54379845M','Indefinido',900.25,'','M','15:00-22:00','Lmp2'),"
+					+ "('56789237P','Temporal',800.25,'','S','18:00-22:00','Lmp3');"
+					);
+			
+			// Insertamos Jefes
+			enunciado.execute(
+					"INSERT INTO Jefe VALUES "
+					+ "(1)"
+					);
+			
+			// Insertamos Cocineros
+			enunciado.execute(
+					"INSERT INTO Cocineros VALUES "
+					+ "(1,'Paella','Cheff1',1), "
+					+ "(2,'Pollo','Cheff2',1);" 
+					);
+		
+			// Insertamos Clientes
+			enunciado.execute(
+					"INSERT INTO Cliente VALUES "
+					+ "(1,'Paypal','Boniato'),"
+					+ "(2,'Metalico','J3'),"
+					+ "(3,'Tarjeta','Aior');"
+					);
+			
+			// Insertamos Camarero
+			enunciado.execute(
+					"INSERT INTO Camarero VALUES "
+					+ "(1,1,20.5,'Cam1',1),"
+					+ "(2,2,23.45,'Cam2',1);"
+					);
 
+			// Insertamos Limpiadores
+			enunciado.execute(
+					"INSERT INTO Limpiador VALUES "
+					+ "(1,'Lmp1',1),"
+					+ "(2,'Lmp2',1)," 
+					+ "(3,'Lmp3',1);"
+					);
+			
+			System.out.println(verClientes());
+			System.out.println(verCocineros());
+			System.out.println(verCamarero());
+			System.out.println(verLimpiadores());
+			
 			// select empleados
 			ResultSet resultados;
-			resultados = enunciado.executeQuery("SELECT * FROM Empleados");
+			resultados = enunciado.executeQuery("SELECT Empleados.* FROM Empleados");
 
 			while (resultados.next()) {
 				System.out.println("DNI: " + resultados.getString(1) 
@@ -170,7 +239,7 @@ public class BDRestaurante implements BaseDatos {
 						+ "\nTalla: " + resultados.getString(5) 
 						+ "\nHorario: " + resultados.getString(6) 
 						+ "\nUsuario: "	+ resultados.getString(7));
-				System.out.println("_________________________________________________________________________________________________________________________________________________________________\n");
+				System.out.println("_______________________________\n");
 			}
 
 		} catch (SQLException e) {
@@ -179,29 +248,200 @@ public class BDRestaurante implements BaseDatos {
 		}
 
 	}
-
+	
+	
 	@Override
 	public ArrayList<Clientes> verClientes() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<Clientes> clientes = new ArrayList<>();
+		Clientes unCliente;
+		String usuario, email, lista = "";
+		MetodoPago metodopago;
+		int id;
+		String sql = "SELECT Cliente.idcliente, Cliente.metododepago, Cliente.usuario, Persona.email FROM Cliente, Persona WHERE Persona.usuario = Cliente.usuario";
+		try {
+			Statement enunciado = con.createStatement();
+			ResultSet rs = enunciado.executeQuery(sql);
+			
+			while(rs.next()){
+				
+				id = rs.getInt(1);
+				metodopago = MetodoPago.valueOf(rs.getString(2));
+				usuario = rs.getString(3);
+				email = rs.getString(4);
+				
+			
+				
+				lista = lista.concat(id + " / " + metodopago + " / " + usuario + " / " + email + "\n");
+				
+				unCliente = new Clientes(id, metodopago, usuario, email);
+				
+				clientes.add(unCliente);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		JOptionPane.showMessageDialog(null, lista);
+		
+		return clientes;
 	}
 
 	@Override
 	public ArrayList<Cocinero> verCocineros() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<Cocinero> cocineros = new ArrayList<>();
+		Cocinero unCocinero;
+		String usuario, contraseña, email, nombre, apellido, telefono, dNI, aviso, talla, horario, especialidad, lista = "";
+		Contratos contrato;
+		float salario;
+		int id, IDJ;
+
+		String sql = "SELECT Persona.usuario, Persona.contraseña, Persona.email, Persona.Nombre, Persona.Apellido, Persona.Telefono, Empleados.dni, Empleados.Contrato, Empleados.Salario, Empleados.Aviso, Empleados.Talla, Empleados.Horario, Cocineros.idcocinero, Cocineros.especialidad, Cocineros.idjefe FROM Cocineros, Persona, Empleados WHERE Cocineros.usuario = Empleados.usuario AND Cocineros.usuario = Persona.usuario";
+		try {
+
+			Statement enunciado = con.createStatement();
+			ResultSet rs = enunciado.executeQuery(sql);
+			
+			while(rs.next()){
+
+				usuario = rs.getString(1);
+				contraseña = rs.getString(2);
+				email = rs.getString(3);
+				nombre = rs.getString(4);
+				apellido = rs.getString(5);
+				telefono = rs.getString(6);
+				dNI = rs.getString(7);
+				contrato = Contratos.valueOf(rs.getString(8));
+				salario = rs.getFloat(9);
+				aviso = rs.getString(10);
+				talla = rs.getString(11);
+				horario = rs.getString(12);
+				id = rs.getInt(13);
+				especialidad = rs.getString(14);
+				IDJ = rs.getInt(15);
+				
+				lista = lista.concat("Usuario: " + nombre + " " + usuario + "\n");
+				
+				unCocinero = new Cocinero(usuario, contraseña, email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ, especialidad);
+				
+				cocineros.add(unCocinero);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		JOptionPane.showMessageDialog(null, lista);
+		return cocineros;
 	}
 
 	@Override
 	public ArrayList<Camarero> verCamarero() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<Camarero> camareros = new ArrayList<>();
+		Camarero unCamarero;
+		String usuario, contraseña, email, nombre, apellido, telefono, dNI, aviso, talla, horario, lista = "";
+		Contratos contrato;
+		float salario, propina;
+		int id, IDJ, zona;
+
+		String sql = "SELECT Persona.usuario, Persona.contraseña, Persona.email, Persona.Nombre, Persona.Apellido, Persona.Telefono, Empleados.dni, Empleados.Contrato, Empleados.Salario, Empleados.Aviso, Empleados.Talla, Empleados.Horario, Camarero.idcamarero, Camarero.idjefe ,Camarero.Zona, Camarero.Propina FROM Camarero, Persona, Empleados WHERE Camarero.usuario = Empleados.usuario AND Camarero.usuario = Persona.usuario";
+		try {
+
+			Statement enunciado = con.createStatement();
+			ResultSet rs = enunciado.executeQuery(sql);
+			
+			while(rs.next()){
+
+				usuario = rs.getString(1);
+				contraseña = rs.getString(2);
+				email = rs.getString(3);
+				nombre = rs.getString(4);
+				apellido = rs.getString(5);
+				telefono = rs.getString(6);
+				dNI = rs.getString(7);
+				contrato = Contratos.valueOf(rs.getString(8));
+				salario = rs.getFloat(9);
+				aviso = rs.getString(10);
+				talla = rs.getString(11);
+				horario = rs.getString(12);
+				id = rs.getInt(13);
+				IDJ = rs.getInt(14);
+				zona = rs.getInt(15);
+				propina = rs.getFloat(16);
+				
+				
+				
+				lista = lista.concat("Usuario: " + nombre + " " + usuario + "\n");
+				
+				unCamarero = new Camarero(usuario, contraseña,email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ, zona, propina);
+				
+				camareros.add(unCamarero);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		JOptionPane.showMessageDialog(null, lista);
+
+		
+		return camareros;
 	}
 
 	@Override
 	public ArrayList<Limpiador> verLimpiadores() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<Limpiador> limpiadores = new ArrayList<>();
+		Limpiador unLimpiador;
+		String usuario, contraseña, email, nombre, apellido, telefono, dNI, aviso, talla, horario, lista = "";
+		Contratos contrato;
+		float salario;
+		int id, IDJ;
+
+		String sql = "SELECT Persona.usuario, Persona.contraseña, Persona.email, Persona.Nombre, Persona.Apellido, Persona.Telefono, Empleados.dni, Empleados.Contrato, Empleados.Salario, Empleados.Aviso, Empleados.Talla, Empleados.Horario, Limpiador.idlimpiador, Limpiador.idjefe FROM Limpiador, Persona, Empleados WHERE Limpiador.usuario = Empleados.usuario AND Limpiador.usuario = Persona.usuario";
+		try {
+
+			Statement enunciado = con.createStatement();
+			ResultSet rs = enunciado.executeQuery(sql);
+			
+			while(rs.next()){
+
+				usuario = rs.getString(1);
+				contraseña = rs.getString(2);
+				email = rs.getString(3);
+				nombre = rs.getString(4);
+				apellido = rs.getString(5);
+				telefono = rs.getString(6);
+				dNI = rs.getString(7);
+				contrato = Contratos.valueOf(rs.getString(8));
+				salario = rs.getFloat(9);
+				aviso = rs.getString(10);
+				talla = rs.getString(11);
+				horario = rs.getString(12);
+				id = rs.getInt(13);
+				IDJ = rs.getInt(14);
+
+				
+				
+				
+				lista = lista.concat("Usuario: " + nombre + " " + usuario + "\n");
+				
+				unLimpiador = new Limpiador(usuario, contraseña,email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ);
+				
+				limpiadores.add(unLimpiador);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		JOptionPane.showMessageDialog(null, lista);
+
+		
+		return limpiadores;
 	}
 
 	@Override
