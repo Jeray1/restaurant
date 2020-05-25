@@ -64,7 +64,7 @@ public class BDRestaurante implements BaseDatos {
 			// tabla Persona
 			enunciado.execute("DROP TABLE IF EXISTS Persona;");
 			enunciado.execute(
-					"CREATE TABLE Persona(usuario String PRIMARY KEY, contraseÃ±a String,email String,Nombre String,Apellido String,Telefono String);");
+					"CREATE TABLE Persona(usuario String PRIMARY KEY, contraseña String,email String,Nombre String,Apellido String,Telefono String);");
 
 			// tabla jefe
 			enunciado.execute("DROP TABLE IF EXISTS Jefe;");
@@ -93,7 +93,7 @@ public class BDRestaurante implements BaseDatos {
 			// tabla Cliente
 			enunciado.execute("DROP TABLE IF EXISTS Cliente;");
 			enunciado.execute(
-					"CREATE TABLE Cliente(idcliente int PRIMARY KEY, metododepago String, email String, contraseÃ±a String);");
+					"CREATE TABLE Cliente(idcliente int PRIMARY KEY, metododepago String, email String, contraseña String);");
 
 		// servicio---------------------------------------------------------------------------------
 			
@@ -159,7 +159,7 @@ public class BDRestaurante implements BaseDatos {
 			// Insertamos Personas
 			enunciado.execute(
 					"INSERT INTO Persona VALUES "
-					+ "('Boniato','1DAW3','boniato@gmail.com','BeÃ±at','Madariaga','656565656'),"
+					+ "('Boniato','1DAW3','boniato@gmail.com','Beñat','Madariaga','656565656'),"
 					+ "('J3','1DAW3','J3@gmail.com','Jeray','Garcia','656565656'),"
 					+ "('Aior','1DAW3','aior@gmail.com','Aimar','Odriozola','656565656'),"
 					+ "('Cheff1','1DAW3','cheff1@gmail.com','Joaquin','Perez','656565656'),"
@@ -199,9 +199,9 @@ public class BDRestaurante implements BaseDatos {
 			// Insertamos Clientes
 			enunciado.execute(
 					"INSERT INTO Cliente VALUES "
-					+ "(1,'Paypal','contraseÃ±a1','cliente1@gmail.com'),"
-					+ "(2,'Metalico','contraseÃ±a2','cliente2@gmail.com'),"
-					+ "(3,'Tarjeta','contraseÃ±a3','cliente3@gmail.com');"
+					+ "(1,'Paypal','contraseña1','cliente1@gmail.com'),"
+					+ "(2,'Metalico','contraseña2','cliente2@gmail.com'),"
+					+ "(3,'Tarjeta','contraseña3','cliente3@gmail.com');"
 					);
 			
 			// Insertamos Camarero
@@ -263,7 +263,7 @@ public class BDRestaurante implements BaseDatos {
 		
 		ArrayList<Clientes> clientes = new ArrayList<>();
 		Clientes unCliente;
-		String contraseÃ±a, email, lista = "";
+		String contraseña, email, lista = "";
 		MetodoPago metodopago;
 		int id;
 		String sql = "SELECT * FROM Cliente";
@@ -275,14 +275,14 @@ public class BDRestaurante implements BaseDatos {
 				
 				id = rs.getInt(1);
 				metodopago = MetodoPago.valueOf(rs.getString(2));
-				contraseÃ±a = rs.getString(3);
+				contraseña = rs.getString(3);
 				email = rs.getString(4);
 				
 			
 				
-				lista = lista.concat(id + " / " + metodopago + " / " + contraseÃ±a + " / " + email + "\n");
+				lista = lista.concat(id + " / " + metodopago + " / " + contraseña + " / " + email + "\n");
 				
-				unCliente = new Clientes(id, metodopago, contraseÃ±a, email);
+				unCliente = new Clientes(id, metodopago, contraseña, email);
 				
 				clientes.add(unCliente);
 			}
@@ -301,12 +301,12 @@ public class BDRestaurante implements BaseDatos {
 		
 		ArrayList<Cocinero> cocineros = new ArrayList<>();
 		Cocinero unCocinero;
-		String usuario, contraseÃ±a, email, nombre, apellido, telefono, dNI, aviso, talla, horario, especialidad, lista = "";
+		String usuario, contraseña, email, nombre, apellido, telefono, dNI, aviso, talla, horario, especialidad, lista = "";
 		Contratos contrato;
 		float salario;
 		int id, IDJ;
 
-		String sql = "SELECT Persona.usuario, Persona.contraseÃ±a, Persona.email, Persona.Nombre, Persona.Apellido, Persona.Telefono, Empleados.dni, Empleados.Contrato, Empleados.Salario, Empleados.Aviso, Empleados.Talla, Empleados.Horario, Cocineros.idcocinero, Cocineros.especialidad, Cocineros.idjefe FROM Cocineros, Persona, Empleados WHERE Cocineros.usuario = Empleados.usuario AND Cocineros.usuario = Persona.usuario";
+		String sql = "SELECT Persona.usuario, Persona.contraseña, Persona.email, Persona.Nombre, Persona.Apellido, Persona.Telefono, Empleados.dni, Empleados.Contrato, Empleados.Salario, Empleados.Aviso, Empleados.Talla, Empleados.Horario, Cocineros.idcocinero, Cocineros.especialidad, Cocineros.idjefe FROM Cocineros, Persona, Empleados WHERE Cocineros.usuario = Empleados.usuario AND Cocineros.usuario = Persona.usuario";
 		try {
 
 			Statement enunciado = con.createStatement();
@@ -315,7 +315,7 @@ public class BDRestaurante implements BaseDatos {
 			while(rs.next()){
 
 				usuario = rs.getString(1);
-				contraseÃ±a = rs.getString(2);
+				contraseña = rs.getString(2);
 				email = rs.getString(3);
 				nombre = rs.getString(4);
 				apellido = rs.getString(5);
@@ -332,7 +332,7 @@ public class BDRestaurante implements BaseDatos {
 				
 				lista = lista.concat("Usuario: " + nombre + " " + usuario + "\n");
 				
-				unCocinero = new Cocinero(usuario, contraseÃ±a, email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ, especialidad);
+				unCocinero = new Cocinero(usuario, contraseña, email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ, especialidad);
 				
 				cocineros.add(unCocinero);
 			}
@@ -350,12 +350,12 @@ public class BDRestaurante implements BaseDatos {
 		
 		ArrayList<Camarero> camareros = new ArrayList<>();
 		Camarero unCamarero;
-		String usuario, contraseÃ±a, email, nombre, apellido, telefono, dNI, aviso, talla, horario, lista = "";
+		String usuario, contraseña, email, nombre, apellido, telefono, dNI, aviso, talla, horario, lista = "";
 		Contratos contrato;
 		float salario, propina;
 		int id, IDJ, zona;
 
-		String sql = "SELECT Persona.usuario, Persona.contraseÃ±a, Persona.email, Persona.Nombre, Persona.Apellido, Persona.Telefono, Empleados.dni, Empleados.Contrato, Empleados.Salario, Empleados.Aviso, Empleados.Talla, Empleados.Horario, Camarero.idcamarero, Camarero.idjefe ,Camarero.Zona, Camarero.Propina FROM Camarero, Persona, Empleados WHERE Camarero.usuario = Empleados.usuario AND Camarero.usuario = Persona.usuario";
+		String sql = "SELECT Persona.usuario, Persona.contraseña, Persona.email, Persona.Nombre, Persona.Apellido, Persona.Telefono, Empleados.dni, Empleados.Contrato, Empleados.Salario, Empleados.Aviso, Empleados.Talla, Empleados.Horario, Camarero.idcamarero, Camarero.idjefe ,Camarero.Zona, Camarero.Propina FROM Camarero, Persona, Empleados WHERE Camarero.usuario = Empleados.usuario AND Camarero.usuario = Persona.usuario";
 		try {
 
 			Statement enunciado = con.createStatement();
@@ -364,7 +364,7 @@ public class BDRestaurante implements BaseDatos {
 			while(rs.next()){
 
 				usuario = rs.getString(1);
-				contraseÃ±a = rs.getString(2);
+				contraseña = rs.getString(2);
 				email = rs.getString(3);
 				nombre = rs.getString(4);
 				apellido = rs.getString(5);
@@ -384,7 +384,7 @@ public class BDRestaurante implements BaseDatos {
 				
 				lista = lista.concat("Usuario: " + nombre + " " + usuario + "\n");
 				
-				unCamarero = new Camarero(usuario, contraseÃ±a,email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ, zona, propina);
+				unCamarero = new Camarero(usuario, contraseña,email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ, zona, propina);
 				
 				camareros.add(unCamarero);
 			}
@@ -404,7 +404,7 @@ public class BDRestaurante implements BaseDatos {
 		
 		ArrayList<Limpiador> limpiadores = new ArrayList<>();
 		Limpiador unLimpiador;
-		String usuario, contraseÃ±a, email, nombre, apellido, telefono, dNI, aviso, talla, horario, lista = "";
+		String usuario, contraseña, email, nombre, apellido, telefono, dNI, aviso, talla, horario, lista = "";
 		Contratos contrato;
 		float salario;
 		int id, IDJ;
@@ -418,7 +418,7 @@ public class BDRestaurante implements BaseDatos {
 			while(rs.next()){
 
 				usuario = rs.getString(1);
-				contraseÃ±a = rs.getString(2);
+				contraseña = rs.getString(2);
 				email = rs.getString(3);
 				nombre = rs.getString(4);
 				apellido = rs.getString(5);
@@ -437,7 +437,7 @@ public class BDRestaurante implements BaseDatos {
 				
 				lista = lista.concat("Usuario: " + nombre + " " + usuario + "\n");
 				
-				unLimpiador = new Limpiador(usuario, contraseÃ±a,email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ);
+				unLimpiador = new Limpiador(usuario, contraseña,email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ);
 				
 				limpiadores.add(unLimpiador);
 			}
@@ -459,9 +459,9 @@ public class BDRestaurante implements BaseDatos {
 	}
 
 	@Override
-	public void aÃ±adirClientes(Clientes cliente) {
+	public void añadirClientes(Clientes cliente) {
 		
-		String sql = "insert into cliente (idcliente, metododepago, contraseÃ±a, email) values (?,?,?,?)";
+		String sql = "insert into cliente (idcliente, metododepago, contraseña, email) values (?,?,?,?)";
 
 		
 		try {
@@ -470,7 +470,7 @@ public class BDRestaurante implements BaseDatos {
 			
 			pst.setInt(1, cliente.getIDClientes());
 			pst.setString(2, cliente.getMetodoDePago().name());
-			pst.setString(3, cliente.getContraseÃ±a());
+			pst.setString(3, cliente.getContraseña());
 			pst.setString(4, cliente.getEmail());
 			
 			pst.executeUpdate();
@@ -485,15 +485,53 @@ public class BDRestaurante implements BaseDatos {
 	}
 
 	@Override
-	public void aÃ±adirReceta(Recetas receta) {
+	public void añadirReceta(Recetas receta) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void aÃ±adirCocineros(Cocinero c1) {
+	public void añadirCocineros(Cocinero c1) {
 		// TODO Auto-generated method stub
 
 	}
 
-}
+	@Override
+	public boolean clienteExiste(String email, String contraseña) {
+		ArrayList<Clientes> clientes = new ArrayList<>();
+		Clientes unCliente;
+		String contraseña1, email1, lista = "";
+		MetodoPago metodopago;
+		int id;
+		String sql = "SELECT * FROM Cliente WHERE email="+email+" AND contraseña="+contraseña;
+		try {
+			Statement enunciado = con.createStatement();
+			ResultSet rs = enunciado.executeQuery(sql);
+			
+			while(rs.next()){
+				
+				id = rs.getInt(1);
+				metodopago = MetodoPago.valueOf(rs.getString(2));
+				contraseña1 = rs.getString(3);
+				email1 = rs.getString(4);
+				
+			
+				
+				lista = lista.concat(id + " / " + metodopago + " / " + contraseña1 + " / " + email1 + "\n");
+				
+				unCliente = new Clientes(id, metodopago, contraseña1, email1);
+				
+				clientes.add(unCliente);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		JOptionPane.showMessageDialog(null, lista);
+		if(clientes.isEmpty())
+			return false;
+			else
+		return true;
+		}
+	}

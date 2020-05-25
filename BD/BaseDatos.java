@@ -21,6 +21,7 @@ public interface BaseDatos {
 	public void añadirClientes(Clientes cliente);
 	public void añadirReceta(Recetas receta);
 	public void añadirCocineros(Cocinero c1);
+	public boolean clienteExiste(String email,String contraseña);
 	
 	
 }

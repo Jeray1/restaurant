@@ -8,6 +8,8 @@ public class Principal {
 		BDRestaurante bd1 = new BDRestaurante();
 		bd1.conectar();
 		bd1.iniciar();
+		VentanaMain m1 = new VentanaMain();
+		m1.setVisible(true);
 	}
 
 }
