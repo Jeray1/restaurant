@@ -4,3 +4,8 @@ V0.1 - Añadiras las clases base,enumeraciones y empezar interfaz de Base de Dat
 18/05/20202 V0.2 
 - Trabajar en la base de datos añadiendole las tablas y organizando las funciones de añadir nuevos datos y borrar los antiguos
 -Crean la ventana main para hacer pruebas de lo que vamos creando en la base de datos si funciona bien. (prototipo 0.1)
+
+26/05/2020 V0.3
+- Perfeccionar base de datos
+- Perfeccionar las clases
+- Continuar con la interfaz

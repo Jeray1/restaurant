@@ -7,6 +7,10 @@ public class Mesas {
 	private boolean ocupada;
 	
 	//Constructores
+	public Mesas() {
+		NR = 0;
+		this.ocupada = false;
+	}
 	
 	public Mesas(int iDMesa, int nR, boolean ocupada) {
 		IDMesa = iDMesa;

@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import Clases.Camarero;
 import Clases.Clientes;
 import Clases.Cocinero;
+import Clases.Jefe;
 import Clases.Limpiador;
 import Clases.Recetas;
 import Enumeraciones.Contratos;
@@ -83,7 +84,7 @@ public class BDRestaurante implements BaseDatos {
 			// tabla Camarero
 			enunciado.execute("DROP TABLE IF EXISTS Camarero;");
 			enunciado.execute(
-					"CREATE TABLE Camarero(idcamarero int PRIMARY KEY,Zona int,Propina float, Usuario String, idjefe int, FOREIGN KEY(Usuario) REFERENCES Persona(usuario), FOREIGN KEY(idjefe) REFERENCES Jefe(idjefe));");
+					"CREATE TABLE Camarero(idcamarero INTEGER PRIMARY KEY AUTOINCREMENT,Zona int,Propina float, Usuario String, idjefe int, FOREIGN KEY(Usuario) REFERENCES Persona(usuario), FOREIGN KEY(idjefe) REFERENCES Jefe(idjefe));");
 
 			// tabla Limpiador
 			enunciado.execute("DROP TABLE IF EXISTS Limpiador;");
@@ -105,7 +106,7 @@ public class BDRestaurante implements BaseDatos {
 			// tabla Mesas
 			enunciado.execute("DROP TABLE IF EXISTS Mesas;");
 			enunciado.execute(
-					"CREATE TABLE Mesas(idmesa int PRIMARY KEY,ocupada boolean,nr int,FOREIGN KEY(nr) REFERENCES Reserva(nr));");
+					"CREATE TABLE Mesas(idmesa INTEGER PRIMARY KEY AUTOINCREMENT,ocupada boolean,nr int,FOREIGN KEY(nr) REFERENCES Reserva(nr));");
 
 			// tabla Comanda
 			enunciado.execute("DROP TABLE IF EXISTS Comanda;");
@@ -219,37 +220,6 @@ public class BDRestaurante implements BaseDatos {
 					+ "(3,'Lmp3',1);"
 					);
 			
-			
-		
-			
-			/*
-			 * Clientes nuevoCliente; int id = 4; String metodo = "Paypal",
-			 * email = "cliente4@gmail.com", contraseÃ±a = "contraseÃ±a4";
-			 * 
-			 * nuevoCliente = new Clientes(id, MetodoPago.valueOf(metodo),
-			 * email, contraseÃ±a);
-			 * 
-			 * aÃ±adirClientes(nuevoCliente);
-			 * 
-			 * 
-			 * System.out.println(verClientes());
-			 * System.out.println(verCocineros());
-			 * System.out.println(verCamarero());
-			 * System.out.println(verLimpiadores());
-			 * 
-			 * // select empleados ResultSet resultados; resultados =
-			 * enunciado.executeQuery("SELECT Empleados.* FROM Empleados");
-			 * 
-			 * while (resultados.next()) { System.out.println("DNI: " +
-			 * resultados.getString(1) + "\nContrato: " +
-			 * resultados.getString(2) + "\nSalario:" + resultados.getString(3)
-			 * + "â¬ \nAviso: " + resultados.getString(4) + "\nTalla: " +
-			 * resultados.getString(5) + "\nHorario: " + resultados.getString(6)
-			 * + "\nUsuario: " + resultados.getString(7));
-			 * System.out.println("_______________________________\n"); }
-			 */
-			
-			
 		} catch (SQLException e) {
 			// Se produce algun problema al crear las tablas
 			e.printStackTrace();
@@ -292,7 +262,6 @@ public class BDRestaurante implements BaseDatos {
 		}
 		
 		JOptionPane.showMessageDialog(null, lista);
-		
 		return clientes;
 	}
 
@@ -380,8 +349,6 @@ public class BDRestaurante implements BaseDatos {
 				zona = rs.getInt(15);
 				propina = rs.getFloat(16);
 				
-				
-				
 				lista = lista.concat("Usuario: " + nombre + " " + usuario + "\n");
 				
 				unCamarero = new Camarero(usuario, contraseña,email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario, id, IDJ, zona, propina);
@@ -431,9 +398,6 @@ public class BDRestaurante implements BaseDatos {
 				horario = rs.getString(12);
 				id = rs.getInt(13);
 				IDJ = rs.getInt(14);
-
-				
-				
 				
 				lista = lista.concat("Usuario: " + nombre + " " + usuario + "\n");
 				
@@ -447,27 +411,19 @@ public class BDRestaurante implements BaseDatos {
 		}
 		
 		JOptionPane.showMessageDialog(null, lista);
-
 		
 		return limpiadores;
 	}
 
-	@Override
-	public Clientes devolverCliente(String nombre, String Apellidos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public void añadirClientes(Clientes cliente) {
 		
 		String sql = "insert into cliente (idcliente, metododepago, contraseña, email) values (?,?,?,?)";
-
 		
 		try {
 			PreparedStatement pst = con.prepareStatement(sql);
-			
-			
+		
 			pst.setInt(1, cliente.getIDClientes());
 			pst.setString(2, cliente.getMetodoDePago().name());
 			pst.setString(3, cliente.getContraseña());
@@ -476,11 +432,8 @@ public class BDRestaurante implements BaseDatos {
 			pst.executeUpdate();
 
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
 		}
-		
-		
 		
 	}
 
@@ -489,31 +442,73 @@ public class BDRestaurante implements BaseDatos {
 		// TODO Auto-generated method stub
 
 	}
-
 	
 	//hay que probarlo
 	@Override
 	public void añadirCocineros(Cocinero c1) {
 		
-		
-		
-		try {
-			Statement enunciado = con.createStatement();
-
 			// Insertamos Personas
-			enunciado.execute("INSERT INTO Persona VALUES (" + c1.getUsuario() + "," + c1.getContraseña() + "," + c1.getEmail() + "," + c1.getNombre() + "," + c1.getApellido() + "," + c1.getTelefono() + ");");
-					
+			String sql ="INSERT INTO Persona VALUES (?,?,?,?,?,?);";
+
+			try {
+				PreparedStatement pst = con.prepareStatement(sql);	
+				
+				pst.setString(1, c1.getUsuario());
+				pst.setString(2, c1.getContraseña());
+				pst.setString(3, c1.getEmail());
+				pst.setString(4, c1.getNombre());
+				pst.setString(5, c1.getApellido());
+				pst.setString(6, c1.getTelefono());
+				
+				pst.executeUpdate();
+
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 
 			// Insertamos Empleados
-			enunciado.execute("INSERT INTO Empleados VALUES (" + c1.getDNI() + "," + c1.getContrato() + "," + c1.getSalario() + "," + c1.getTalla() + "," + c1.getHorario() + "," + c1.getUsuario() + ");");
+			
+			
+			sql ="INSERT INTO Empleados VALUES (?,?,?,?,?,?,?);";
+			
+			
+			
+			try {
+				PreparedStatement pst = con.prepareStatement(sql);
+				
+				
+				pst.setString(1, c1.getDNI());
+				pst.setString(2, c1.getContrato().name());
+				pst.setFloat(3, c1.getSalario());
+				pst.setString(4, c1.getAviso());
+				pst.setString(5, c1.getTalla());
+				pst.setString(6, c1.getHorario());
+				pst.setString(7, c1.getUsuario());
+				
+				pst.executeUpdate();
 
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 
 			// Insertamos Cocineros
-			enunciado
-					.execute("INSERT INTO Cocineros (especialidad, usuario, idjefe) VALUES (" + c1.getEspecialidad() + "," + c1.getUsuario() + "," + c1.getIDJ() + ");");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			sql = "INSERT INTO Cocineros (especialidad, usuario, idjefe) VALUES (?,?,?);";
+			
+			try {
+				PreparedStatement pst = con.prepareStatement(sql);
+				
+				pst.setString(1, c1.getEspecialidad());
+				pst.setString(2, c1.getUsuario());
+				pst.setInt(3, c1.getIDJ());
+
+				pst.executeUpdate();
+
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
 	}
 
 	@Override
@@ -554,4 +549,150 @@ public class BDRestaurante implements BaseDatos {
 			else
 		return true;
 		}
+
+	@Override
+	public void añadirJefe(Jefe j1) {
+		// Insertamos Personas
+		String sql = "INSERT INTO Persona VALUES (?,?,?,?,?,?);";
+
+		try {
+			PreparedStatement pst = con.prepareStatement(sql);
+
+			pst.setString(1, j1.getUsuario());
+			pst.setString(2, j1.getContraseña());
+			pst.setString(3, j1.getEmail());
+			pst.setString(4, j1.getNombre());
+			pst.setString(5, j1.getApellido());
+			pst.setString(6, j1.getTelefono());
+
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		
+		sql = "INSERT INTO Jefe VALUES (?)";
+		
+		try {
+			
+			PreparedStatement pst = con.prepareStatement(sql);
+			
+			pst.setInt(1, j1.getIDJ());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
+
+	@Override
+	public void añadirCamarero(Camarero c1) {
+		
+		
+		// Insertamos Personas
+					String sql ="INSERT INTO Persona VALUES (?,?,?,?,?,?);";
+
+					try {
+						PreparedStatement pst = con.prepareStatement(sql);	
+						
+						pst.setString(1, c1.getUsuario());
+						pst.setString(2, c1.getContraseña());
+						pst.setString(3, c1.getEmail());
+						pst.setString(4, c1.getNombre());
+						pst.setString(5, c1.getApellido());
+						pst.setString(6, c1.getTelefono());
+						
+						pst.executeUpdate();
+
+					} catch (SQLException e) {
+						
+						e.printStackTrace();
+					}
+
+					// Insertamos Empleados
+					
+					
+					sql ="INSERT INTO Empleados VALUES (?,?,?,?,?,?,?);";
+					
+					
+					
+					try {
+						PreparedStatement pst = con.prepareStatement(sql);
+						
+						
+						pst.setString(1, c1.getDNI());
+						pst.setString(2, c1.getContrato().name());
+						pst.setFloat(3, c1.getSalario());
+						pst.setString(4, c1.getAviso());
+						pst.setString(5, c1.getTalla());
+						pst.setString(6, c1.getHorario());
+						pst.setString(7, c1.getUsuario());
+						
+						pst.executeUpdate();
+
+					} catch (SQLException e) {
+						
+						e.printStackTrace();
+					}
+					
+					// Insertamos el camarero
+					
+					sql = "INSERT INTO Camarero (Zona, Propina, Usuario, idjefe) VALUES (?,?,?,?);";
+					
+					try {
+						
+						PreparedStatement pst = con.prepareStatement(sql);
+						
+						pst.setInt(1, c1.getZona());
+						pst.setFloat(2, c1.getPropina());
+						pst.setString(3, c1.getUsuario());
+						pst.setInt(4, c1.getIDJ());
+
+						pst.executeUpdate();
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+	}
+
+	@Override
+	public void añadirMesa() {
+		String sql ="INSERT INTO Mesas (ocupada, nr) VALUES (false,0);";
+		try {
+			Statement enunciado = con.createStatement();
+			enunciado.execute(sql);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	@Override
+	public void ocuparMesa(int id) {
+		
+		String sql ="UPDATE Mesas SET ocupada = true WHERE idmesa = " + id +";";
+		try {
+			Statement enunciado = con.createStatement();
+			enunciado.execute(sql);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void librarMesa(int id) {
+		
+		String sql ="UPDATE Mesas SET ocupada = false WHERE idmesa = " + id +";";
+		try {
+			Statement enunciado = con.createStatement();
+			enunciado.execute(sql);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+}

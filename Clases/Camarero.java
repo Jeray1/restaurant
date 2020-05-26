@@ -17,6 +17,19 @@ public class Camarero extends Empleados {
 		this.zona = 0;
 		this.propina = (float) 0.0;
 	}
+	
+	
+	//Sin IDcocinero para meter en la base de datos
+	public Camarero(String usuario, String contraseña, String email, String nombre, String apellido, String telefono,
+			String dNI, Contratos contrato, float salario, String aviso, String talla, String horario,
+			int iDJ,int zona,float propina) {
+		super(usuario, contraseña, email, nombre, apellido, telefono, dNI, contrato, salario, aviso, talla, horario);
+		IDJ = iDJ;
+		this.zona = zona;
+		this.propina = propina;
+	}
+	
+	//Con IDcocinero para sacar de la base de datos
 	public Camarero(String usuario, String contraseña, String email, String nombre, String apellido, String telefono,
 			String dNI, Contratos contrato, float salario, String aviso, String talla, String horario,
 			int iDCamarero,int iDJ,int zona,float propina) {
